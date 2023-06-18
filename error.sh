@@ -1,3 +1,6 @@
+
+//loop to print even
+
 object HelloWorld
 {
     def main(args: Array[String])
@@ -20,7 +23,7 @@ object HelloWorld
 
 
 
-
+//linear search
 
 import scala.util.control.Breaks._
 object HelloWorld {
@@ -125,7 +128,7 @@ def main(args: Array[String]){
 
 
 
-
+//largest no 
 
 
 
@@ -151,3 +154,67 @@ object HelloWorld {
       b
   }
 }
+
+
+
+
+1. Program to run wordcount on scala shell
+
+Note- Create a textfile sparkdata.txt locally and give appropriate path while loading the data using sc.textFile
+
+val data=sc.textFile("sparkdata.txt")
+
+data.collect;
+
+val splitdata = data.flatMap(line => line.split(" "));
+
+splitdata.collect;
+
+val mapdata = splitdata.map(word => (word,1));
+
+mapdata.collect;
+
+val reducedata = mapdata.reduceByKey(_+_);
+
+reducedata.collect;
+
+
+
+
+2. Using RDD and FlaMap count how many times each word appears in
+
+a file and write out a list of words whose count is strictly greater than
+
+4 using Spark.
+
+val textFile = sc.textFile("/home/bhoom/Desktop/wc.txt")
+
+val counts = textFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
+
+import scala.collection.immutable.ListMap
+
+val sorted=ListMap(counts.collect.sortWith(_._2 > _._2):_*)// sort in descending order based
+
+on values
+
+println(sorted)
+
+for((k,v)<-sorted)
+
+{
+
+if(v>4)
+
+{
+
+print(k+",")
+
+print(v)
+
+println()
+
+}
+
+}
+
+
